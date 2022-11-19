@@ -7,6 +7,7 @@ import glob
 import pandas as pd
 from mtranslate import translate
 import os
+from tqdm import tqdm
 
 #language_code = pd.read_excel(os.getcwd() + "//language_code.xlsx") #If you're working on PC
 language_code = pd.read_excel(os.getcwd() + r"/language_code.xlsx") #If you're working on Mac
@@ -35,18 +36,20 @@ for fle in files:
     print("\n" + "Working on " + str(fle[fle.find("Input")+6:]))
     df = pd.read_excel(fle)
     out_df = pd.DataFrame()
-    for index, row in df.iterrows():
+    for i in tqdm(range (0,len(df))):
+        row = df[df.index == i]
+        line_to_trans = row[row.columns[1]].values[0]
+        id = row[row.columns[0]].values[0]
         try:
-            tran_sent = tran(row[1])
+            tran_sent = tran(line_to_trans)
             if tran_sent == "":
-                print("index num " + str(index) + " is empty")
+                print("\n" + "index num " + str(i) + " is empty")
             else:
-                print("index num " + str(index) + " checked/translated")
-                row = row.to_frame().transpose()
-                row['Translation'] = tran_sent
-                out_df = pd.concat([out_df, row])
+                #print("index num " + str(i) + " checked/translated")
+                row_out = pd.DataFrame(data={"ID" : [id], "line_to_translate" : [line_to_trans], "translate_line" : [tran_sent]})
+                out_df = pd.concat([out_df, row_out])
         except:
-            print("index num " + str(index) + " had a problem")
+            print("\n" + "index num " + str(i) + " had a problem")
 
     #out_df.to_excel(os.getcwd() + "Output\\" + fle[fle.find("Input")+6:], index=False) #If you're working on PC
     out_df.to_excel(os.getcwd() + r"/Output/" + fle[fle.find("Input")+6:], index=False) #If you're working on Mac
