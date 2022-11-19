@@ -38,18 +38,22 @@ for fle in files:
     out_df = pd.DataFrame()
     for i in tqdm(range (0,len(df))):
         row = df[df.index == i]
-        line_to_trans = row[row.columns[1]].values[0]
+        line_to_trans = str(row[row.columns[1]].values[0]).title()
         id = row[row.columns[0]].values[0]
         try:
             tran_sent = tran(line_to_trans)
-            if tran_sent == "":
+            if line_to_trans == "Nan":
                 print("\n" + "index num " + str(i) + " is empty")
+                line_to_trans = ""
+                tran_sent = ""
+                row_out = pd.DataFrame(data={"ID" : [id], "line_to_translate" : [line_to_trans], "translate_line" : [tran_sent]})
             else:
                 #print("index num " + str(i) + " checked/translated")
                 row_out = pd.DataFrame(data={"ID" : [id], "line_to_translate" : [line_to_trans], "translate_line" : [tran_sent]})
                 out_df = pd.concat([out_df, row_out])
         except:
             print("\n" + "index num " + str(i) + " had a problem")
+
 
     #out_df.to_excel(os.getcwd() + "Output\\" + fle[fle.find("Input")+6:], index=False) #If you're working on PC
     out_df.to_excel(os.getcwd() + r"/Output/" + fle[fle.find("Input")+6:], index=False) #If you're working on Mac
