@@ -1,13 +1,12 @@
 # automatic_translations
-Script for translating Excel files automatically
 
-Steps:
-1. Locate the files you want to translate in "Input" folder
-2. Run the script
-3. Write in english the language you want to translate the file to
-4. Press enter
-5. The files will be ready in "Output" folder
+Instructions:
 
-In order to run this script on a PC, just modify the relevant line of code in the script.
+Locate the files you want to translate in the "Input" folder.
+Run the script.
+Enter the language you want to translate the files to in English (e.g. "Spanish", "French", "German").
+Press enter.
+The translated files will be available in the "Output" folder.
+Note: To use this script on a PC, you may need to modify the relevant line of code in the script.
 
-Thank you
+Thank you for using this script.
